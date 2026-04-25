@@ -1,0 +1,54 @@
+name: ipv4
+
+volumes:
+  letsencrypt:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/stheine/data/letsencrypt
+      o: bind
+      
+  letsencrypt_www:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/stheine/data/letsencrypt_www
+      o: bind
+
+networks:
+  ip6net:
+    enable_ipv6: true
+
+services:
+  certbot:
+    restart: always
+    build: certbot
+    stop_signal: SIGKILL
+    network_mode: host
+    hostname: ipv4-certbot
+    volumes:
+      - ./certbot/renew.sh:/renew.sh:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - letsencrypt:/etc/letsencrypt:nocopy
+      - letsencrypt_www:/var/letsencrypt
+
+  nginx:
+    restart: always
+    image: nginx:alpine
+    hostname: ipv4-nginx
+    stop_signal: SIGKILL
+    networks:
+      - ip6net
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - letsencrypt:/etc/letsencrypt
+      - letsencrypt_www:/var/letsencrypt
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+
+  noop:
+    restart: always
+    build: noop
+    hostname: ipv4-noop
+    stop_signal: SIGKILL
