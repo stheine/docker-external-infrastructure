@@ -8,7 +8,7 @@ docker compose run --rm certbot /bin/bash -l
 2
 <Enter>
 y
-heine7.de bitwarden.heine7.de cloud.heine7.de homer.heine7.de immich.heine7.de ladder.heine7.de paperless.heine7.de wiki.heine7.de
+heine7.de bitwarden.heine7.de cloud.heine7.de homer.heine7.de immich.heine7.de kuma.heine7.de paperless.heine7.de wiki.heine7.de www.spasmodische-dysphonie.de
 /var/letsencrypt
 2 (for each certificate)
 ```
@@ -46,9 +46,10 @@ cd /etc/letsencrypt/live/heine7.de/
   -d cloud.heine7.de \
   -d homer.heine7.de \
   -d immich.heine7.de \
-  -d ladder.heine7.de \
+  -d kuma.heine7.de \
   -d paperless.heine7.de \
-  -d wiki.heine7.de
+  -d wiki.heine7.de \
+  -d www.spasmodische-dysphonie.de
 # (E)xpand
 exit
 docker compose kill -s HUP dovecot

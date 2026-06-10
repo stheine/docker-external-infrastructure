@@ -1,3 +1,5 @@
+# uptime-kuma            https://kuma.heine7.de
+
 name: ipv4
 
 volumes:
@@ -13,6 +15,13 @@ volumes:
     driver_opts:
       type: none
       device: /home/stheine/data/letsencrypt_www
+      o: bind
+
+  uptime-kuma:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/stheine/data/uptime-kuma
       o: bind
 
 networks:
@@ -46,9 +55,24 @@ services:
       - letsencrypt:/etc/letsencrypt
       - letsencrypt_www:/var/letsencrypt
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - uptime-kuma
 
   noop:
     restart: always
     build: noop
     hostname: ipv4-noop
     stop_signal: SIGKILL
+
+  uptime-kuma:
+    restart: always
+    image: louislam/uptime-kuma:2
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    hostname: uptime-kuma
+    networks:
+      - ip6net
+    # ports:
+    #   - 16095:3001
+    volumes:
+      - uptime-kuma:/app/data:nocopy
