@@ -76,3 +76,10 @@ services:
     #   - 16095:3001
     volumes:
       - uptime-kuma:/app/data:nocopy
+
+  wireguard-forward:
+    restart: always
+    build: wireguard-forward
+    hostname: wireguard-forward
+    stop_signal: SIGKILL
+    network_mode: host
