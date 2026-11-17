@@ -49,10 +49,10 @@ cd /etc/letsencrypt/live/heine7.de/
   -d kuma.heine7.de \
   -d paperless.heine7.de \
   -d wiki.heine7.de \
+  -d spasmodische-dysphonie.de \
   -d www.spasmodische-dysphonie.de
 # (E)xpand
 exit
-docker compose kill -s HUP dovecot
 docker compose kill -s HUP nginx
 ```
 

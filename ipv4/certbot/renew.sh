@@ -21,11 +21,11 @@ until $(${SUCCESS}); do
     if [ -n "`echo \"${RESULT}\" | grep 'heine7\.de.*success'`" ]; then
       echo "$(date +"%Y-%m-%d %H:%M:%S") certs updated"
 
-      /usr/local/bin/docker restart docker-nginx-1
+      /usr/local/bin/docker restart ipv4-nginx-1
       if [ $? = 0 ]; then
         echo -e "From: technik@heine7.de\nTo: technik@heine7.de\nSubject: Certificate updated ($(hostname))\n\nCertificate updated\n\nContainers restarted" | /usr/sbin/sendmail -t
       else
-	      echo -e "From: technik@heine7.de\nTo: technik@heine7.de\nSubject: Certificate updated ($(hostname))\n\nCertificate updated\n\nContainer restart failed for dovecot & nginx" | /usr/sbin/sendmail -t
+	      echo -e "From: technik@heine7.de\nTo: technik@heine7.de\nSubject: Certificate updated ($(hostname))\n\nCertificate updated\n\nContainer restart failed for nginx" | /usr/sbin/sendmail -t
       fi
     else
       echo "$(date +"%Y-%m-%d %H:%M:%S") certs not updated: ${RESULT}"
